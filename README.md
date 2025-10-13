@@ -4,7 +4,14 @@ Arquivos dentro da pasta "test".
 
 ## Técnologias
 **Consulte o requirements.txt para os requisitos.
+
+### Backend
+
 - Python
   - Flask
   - Telegram (python-telegram-bot)
+
+### Frontend
+- Bootstrap
+
 
