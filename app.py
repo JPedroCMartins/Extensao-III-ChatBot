@@ -4,6 +4,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, fil
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
 TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 
 logging.basicConfig(
@@ -104,12 +105,16 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     
+    if not TOKEN:
+        logger.error("TELEGRAM_BOT_TOKEN não encontrado. Verifique seu arquivo .env ou variáveis de ambiente.")
+        return
+
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, responder))
 
-    print("Bot rodando... Pressione Ctrl+C para parar.")
+    logger.info("Bot rodando... Pressione Ctrl+C para parar.")
 
     app.run_polling()
 
