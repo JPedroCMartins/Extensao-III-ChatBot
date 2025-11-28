@@ -36,12 +36,10 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if texto == "Cursos":
         resposta = (
             "Aqui estão nossos cursos disponíveis:\n\n"
-            "📚 Introdução à Programação\n"
-            "   - Aprenda lógica e as bases do Python.\n\n"
-            "🌐 Desenvolvimento Web\n"
-            "   - Crie sites com HTML, CSS e JavaScript.\n\n"
-            "📊 Análise de Dados\n"
-            "   - Transforme dados em insights com SQL e Pandas."
+            "📚 Informática Básica\n"
+            "   - Domine as ferramentas fundamentais para o mercado de trabalho e uso pessoal.\n\n"
+            "🌐 Informática Avançada\n"
+            "   - Eleve seu nível com manutenção de computadores, configurações de rede e softwares complexos.\n\n"
         )
         
     elif texto == "Horários de Atendimento":
@@ -55,8 +53,8 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif texto == "Agendamento":
         resposta = (
             "Para agendar um atendimento, você pode:\n\n"
-            "1. Ligar para: (92) 2126-7484\n"
-            "2. Acessar nosso site: https://www.cetam.am.gov.br/"
+            "1. Ligar para: (99) 99999-9999\n"
+            "2. Acessar nosso site: DESENVOLVIMENTO"
         )
         
     elif texto == "Consultar Vagas":
@@ -64,28 +62,28 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "As vagas para os cursos abrem todo início de semestre.\n\n"
             "Você pode verificar a disponibilidade atual e a lista de espera "
             "diretamente na página de cada curso em nosso site: \n"
-            "https://www.cetam.am.gov.br/cursos/"
+            "DESENVOLVIMENTO"
         )
         
     elif texto == "Pré-inscrição":
         resposta = (
             "Interessado em nossos cursos? Faça sua pré-inscrição "
             "para ser notificado quando novas turmas abrirem!\n\n"
-            "Acesse: https://inscricao.cetam.am.gov.br/"
+            "Acesse: DESENVOLVIMENTO"
         )
         
     elif texto == "Tira Dúvidas":
         resposta = (
-            "**Perguntas Frequentes sobre o CETAM:**\n\n"
+            "**Perguntas Frequentes:**\n\n"
             
-            "**1. Os cursos do CETAM são gratuitos?**\n"
+            "**1. Os cursos são gratuitos?**\n"
             "   - Sim. Todos os cursos oferecidos são gratuitos. O que pode ser solicitado é o material de uso pessoal para aulas práticas, dependendo do curso.\n\n"
             
             "**2. Como faço para me inscrever?**\n"
             "   - As inscrições são online, através de Editais. É preciso ter um cadastro no 'Portal do Candidato' e depois usar o 'Portal de Inscrição' dentro do prazo do edital.\n\n"
             
             "**3. Posso me inscrever em mais de um curso ao mesmo tempo?**\n"
-            "   - Geralmente não. O CETAM costuma permitir apenas uma inscrição por pessoa em cada processo seletivo para garantir mais oportunidades a todos.\n\n"
+            "   - Geralmente não. A instituição costuma permitir apenas uma inscrição por pessoa em cada processo seletivo para garantir mais oportunidades a todos.\n\n"
             
             "**4. Quais são os pré-requisitos?**\n"
             "   - Os pré-requisitos (idade mínima e escolaridade) mudam para cada curso e estão sempre descritos no edital de abertura de vagas.\n\n"
