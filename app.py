@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
-    # Menu reorganizado para refletir os serviços do Instituto Semeador
     teclado = [
         ["Educação", "Saúde"],
         ["Atendimentos Especializados", "Documentos e Regras"],
@@ -25,7 +24,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     markup = ReplyKeyboardMarkup(teclado, resize_keyboard=True)
     
-    # Texto de boas-vindas atualizado
     await update.message.reply_text(
         "Olá! 👋 Bem-vindo ao assistente virtual do *Instituto Semeador*.\n"
         "Aqui você encontra saúde, educação e cidadania de graça.\n\n"
@@ -39,6 +37,7 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text.strip()
     resposta = ""
 
+    # Opção: EDUCAÇÃO
     if texto == "Educação":
         resposta = (
             "📚 *ÁREA DE EDUCAÇÃO*\n\n"
@@ -48,6 +47,7 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "▫️ *EJA* (Fundamental e Médio)"
         )
         
+    # Opção: SAÚDE
     elif texto == "Saúde":
         resposta = (
             "🩺 *ATENDIMENTO MÉDICO*\n"
@@ -61,6 +61,7 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "▫️ Oftalmologista (Vagas em lista de espera)"
         )
         
+    # Opção: ATENDIMENTOS ESPECIALIZADOS
     elif texto == "Atendimentos Especializados":
         resposta = (
             "⚖️ *ATENDIMENTOS ESPECIALIZADOS*\n\n"
@@ -71,11 +72,12 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "▫️ Psicologia"
         )
         
+    # Opção: DOCUMENTOS E REGRAS
     elif texto == "Documentos e Regras":
         resposta = (
             "📝 *AGENDAMENTO E DOCUMENTAÇÃO*\n\n"
             "⚠️ *Regras Importantes:*\n"
-            "1. A inscrição deve ser feita **pessoalmente** pelo próprio interessado.\n"
+            "1. A inscrição deve ser feita *pessoalmente* pelo próprio interessado.\n"
             "2. Não é permitido fazer inscrição para terceiros.\n\n"
             "📄 *Documentos Obrigatórios (Originais):*\n"
             "• Identidade (RG)\n"
@@ -84,13 +86,14 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• Título de Eleitor"
         )
         
+    # Opção: LOCAL E CONTATO (Corrigido)
     elif texto == "Local e Contato":
         resposta = (
             "📍 *ONDE ESTAMOS*\n\n"
-            "🏢 **Instituto Semeador**\n"
+            "🏢 *Instituto Semeador*\n"
             "Rua Joraci Camargo, Nº 100, Compensa 1\n\n"
-            "📞 **Contato:** (92) 99192-6235\n"
-            "📷 **Instagram:** @instituto_semeador"
+            "📞 *Contato:* (92) 99192-6235\n"
+            "📷 *Instagram:* @instituto_semeador"
         )
         
     else:
@@ -100,13 +103,18 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "Se o menu sumiu, digite /start para exibi-lo novamente."
         )
 
-    # Adicionado parse_mode='Markdown' para suportar negrito
-    await update.message.reply_text(resposta, parse_mode=ParseMode.MARKDOWN)
+    # Envia a resposta. Se houver erro de formatação, o try/except captura para não derrubar o bot
+    try:
+        await update.message.reply_text(resposta, parse_mode=ParseMode.MARKDOWN)
+    except Exception as e:
+        logger.error(f"Erro ao enviar mensagem: {e}")
+        # Tenta enviar sem formatação caso falhe
+        await update.message.reply_text(resposta.replace("*", "").replace("_", ""))
 
 def main():
     
     if not TOKEN:
-        logger.error("TELEGRAM_BOT_TOKEN não encontrado. Verifique seu arquivo .env ou variáveis de ambiente.")
+        logger.error("TELEGRAM_BOT_TOKEN não encontrado.")
         return
 
     app = ApplicationBuilder().token(TOKEN).build()
