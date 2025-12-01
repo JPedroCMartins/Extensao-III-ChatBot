@@ -1,5 +1,6 @@
 import logging
 from telegram import Update, ReplyKeyboardMarkup
+from telegram.constants import ParseMode
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import os
 from dotenv import load_dotenv
@@ -15,17 +16,22 @@ logger = logging.getLogger(__name__)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
+    # Menu reorganizado para refletir os serviços do Instituto Semeador
     teclado = [
-        ["Cursos", "Horários de Atendimento"],
-        ["Agendamento", "Consultar Vagas"],
-        ["Pré-inscrição", "Tira Dúvidas"]
+        ["Educação", "Saúde"],
+        ["Atendimentos Especializados", "Documentos e Regras"],
+        ["Local e Contato"]
     ]
     
     markup = ReplyKeyboardMarkup(teclado, resize_keyboard=True)
     
+    # Texto de boas-vindas atualizado
     await update.message.reply_text(
-        "Olá! 👋 Sou seu assistente virtual. Escolha uma opção abaixo para começar:",
-        reply_markup=markup
+        "Olá! 👋 Bem-vindo ao assistente virtual do *Instituto Semeador*.\n"
+        "Aqui você encontra saúde, educação e cidadania de graça.\n\n"
+        "Escolha uma opção abaixo para saber mais:",
+        reply_markup=markup,
+        parse_mode=ParseMode.MARKDOWN
     )
 
 async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -33,73 +39,69 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto = update.message.text.strip()
     resposta = ""
 
-    if texto == "Cursos":
+    if texto == "Educação":
         resposta = (
-            "Aqui estão nossos cursos disponíveis:\n\n"
-            "📚 Informática Básica\n"
-            "   - Domine as ferramentas fundamentais para o mercado de trabalho e uso pessoal.\n\n"
-            "🌐 Informática Avançada\n"
-            "   - Eleve seu nível com manutenção de computadores, configurações de rede e softwares complexos.\n\n"
+            "📚 *ÁREA DE EDUCAÇÃO*\n\n"
+            "Confira nossos programas educacionais:\n\n"
+            "▫️ *Programa Brasil Alfabetizado*\n"
+            "▫️ *Reforço Escolar* (1º ao 5º ano)\n"
+            "▫️ *EJA* (Fundamental e Médio)"
         )
         
-    elif texto == "Horários de Atendimento":
+    elif texto == "Saúde":
         resposta = (
-            "Nosso horário de atendimento é:\n\n"
-            "Segunda a Sexta: 07:00 às 17:00\n"
-            "Sábado: 07:00 às 12:00\n"
-            "Domingo: Fechado"
+            "🩺 *ATENDIMENTO MÉDICO*\n"
+            "_(Necessário agendamento prévio e presencial)_\n\n"
+            "Especialidades disponíveis:\n"
+            "▫️ Cardiologista\n"
+            "▫️ Clínico Geral\n"
+            "▫️ Pneumologista\n"
+            "▫️ Infectologista\n"
+            "▫️ Pediatra\n"
+            "▫️ Oftalmologista (Vagas em lista de espera)"
         )
         
-    elif texto == "Agendamento":
+    elif texto == "Atendimentos Especializados":
         resposta = (
-            "Para agendar um atendimento, você pode:\n\n"
-            "1. Ligar para: (99) 99999-9999\n"
-            "2. Acessar nosso site: DESENVOLVIMENTO"
+            "⚖️ *ATENDIMENTOS ESPECIALIZADOS*\n\n"
+            "Oferecemos suporte nas seguintes áreas:\n"
+            "▫️ Fisioterapia\n"
+            "▫️ Advocacia\n"
+            "▫️ Assistência Social\n"
+            "▫️ Psicologia"
         )
         
-    elif texto == "Consultar Vagas":
+    elif texto == "Documentos e Regras":
         resposta = (
-            "As vagas para os cursos abrem todo início de semestre.\n\n"
-            "Você pode verificar a disponibilidade atual e a lista de espera "
-            "diretamente na página de cada curso em nosso site: \n"
-            "DESENVOLVIMENTO"
+            "📝 *AGENDAMENTO E DOCUMENTAÇÃO*\n\n"
+            "⚠️ *Regras Importantes:*\n"
+            "1. A inscrição deve ser feita **pessoalmente** pelo próprio interessado.\n"
+            "2. Não é permitido fazer inscrição para terceiros.\n\n"
+            "📄 *Documentos Obrigatórios (Originais):*\n"
+            "• Identidade (RG)\n"
+            "• Comprovante de Residência\n"
+            "• Cartão do SUS\n"
+            "• Título de Eleitor"
         )
         
-    elif texto == "Pré-inscrição":
+    elif texto == "Local e Contato":
         resposta = (
-            "Interessado em nossos cursos? Faça sua pré-inscrição "
-            "para ser notificado quando novas turmas abrirem!\n\n"
-            "Acesse: DESENVOLVIMENTO"
-        )
-        
-    elif texto == "Tira Dúvidas":
-        resposta = (
-            "**Perguntas Frequentes:**\n\n"
-            
-            "**1. Os cursos são gratuitos?**\n"
-            "   - Sim. Todos os cursos oferecidos são gratuitos. O que pode ser solicitado é o material de uso pessoal para aulas práticas, dependendo do curso.\n\n"
-            
-            "**2. Como faço para me inscrever?**\n"
-            "   - As inscrições são online, através de Editais. É preciso ter um cadastro no 'Portal do Candidato' e depois usar o 'Portal de Inscrição' dentro do prazo do edital.\n\n"
-            
-            "**3. Posso me inscrever em mais de um curso ao mesmo tempo?**\n"
-            "   - Geralmente não. A instituição costuma permitir apenas uma inscrição por pessoa em cada processo seletivo para garantir mais oportunidades a todos.\n\n"
-            
-            "**4. Quais são os pré-requisitos?**\n"
-            "   - Os pré-requisitos (idade mínima e escolaridade) mudam para cada curso e estão sempre descritos no edital de abertura de vagas.\n\n"
-            
-            "**5. Como pego meu certificado ao terminar?**\n"
-            "   - Você deve procurar a secretaria da unidade onde realizou o curso para obter as informações sobre a emissão e entrega do seu Certificado ou Diploma."
+            "📍 *ONDE ESTAMOS*\n\n"
+            "🏢 **Instituto Semeador**\n"
+            "Rua Joraci Camargo, Nº 100, Compensa 1\n\n"
+            "📞 **Contato:** (92) 99192-6235\n"
+            "📷 **Instagram:** @instituto_semeador"
         )
         
     else:
         resposta = (
             "Desculpe, não entendi essa opção. 🤔\n"
-            "Por favor, escolha um dos botões do menu. "
+            "Por favor, escolha um dos botões do menu.\n"
             "Se o menu sumiu, digite /start para exibi-lo novamente."
         )
 
-    await update.message.reply_text(resposta)
+    # Adicionado parse_mode='Markdown' para suportar negrito
+    await update.message.reply_text(resposta, parse_mode=ParseMode.MARKDOWN)
 
 def main():
     
@@ -112,7 +114,7 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, responder))
 
-    logger.info("Bot rodando... Pressione Ctrl+C para parar.")
+    logger.info("Bot Instituto Semeador rodando... Pressione Ctrl+C para parar.")
 
     app.run_polling()
 
